@@ -8,6 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.Select;
 
 public class ElementsForBooks {
 
@@ -19,33 +20,44 @@ public class ElementsForBooks {
 		driver.navigate().to("https://www.amazon.com/");
 		driver.manage().window().maximize();
 
-
-
 		Actions action = new Actions(driver);
 		WebElement SearchBox= driver.findElement(By.xpath("//input[@id='twotabsearchtextbox']"));
 		SearchBox.sendKeys("books for toddlers");
 
-		WebElement SearchIcon = driver.findElement(By.xpath("//span[@class='nav-search-submit-text nav-sprite']"));
+		WebElement SearchIcon = driver.findElement(By.xpath("//input[@tabindex='20']"));
 		action.moveToElement(SearchIcon);
 		action.click().build().perform();
+		
+		System.out.println("The title of the page is :" + driver.getTitle());
 
-		WebElement SortTheSeacrh = driver.findElement(By.xpath("//span[@class='a-button-text a-declarative']"));
-		action.moveToElement(SortTheSeacrh);
+		WebElement SortTheSeacrh = driver.findElement(By.xpath("//select[@id='s-result-sort-select']"));
+	
+		//SortTheSeacrh.click(); 
+				//span[@class='a-button-text a-declarative']
+				
+		Select s=new Select(SortTheSeacrh);
+		s.selectByIndex(2);
+		
+		/*action.moveToElement(SortTheSeacrh);
 		action.click().build().perform();
 		Thread.sleep(2000);
 
 		WebElement HighToLow = driver.findElement(By.xpath("//a[contains(text(),'Price: High to Low')]"));
 		action.moveToElement(HighToLow);
 		action.click().build().perform();
-		Thread.sleep(2000);
+		Thread.sleep(2000);*/
 
 		WebElement prime = driver.findElement(By.xpath("//i[@aria-label='Prime Eligible']"));
 		action.moveToElement(prime);
 		action.click().build().perform();
 
-
+		
+		//span[contains(text(),'Picture Books')]
+		//li[@id='p_n_feature_eight_browse-bin/3269847011']
+		//Picture Books
+		
 		JavascriptExecutor js=(JavascriptExecutor) driver;
-		WebElement pictureBook = driver.findElement(By.xpath("//span[contains(text(),'Picture Books')]"));
+		WebElement pictureBook = driver.findElement(By.linkText("Picture Books"));
 		js.executeScript("arguments[0].scrollIntoView();", pictureBook);
 		Thread.sleep(2000);
 		pictureBook.click();
@@ -60,13 +72,13 @@ public class ElementsForBooks {
 		WebElement selectBook = driver.findElement(By.partialLinkText("Polar Bear, Polar Bear, What Do You Hear?"));
 		action.moveToElement(selectBook);
 		action.click().build().perform();
+		
+		System.out.println("the title is :" + driver.getTitle());
 
 		WebElement selectQuantity = driver.findElement(By.xpath("//span[@id='a-autoid-0-announce']"));
-
 		selectQuantity.click();
-
+		
 		WebElement selectQuantityfive = driver.findElement(By.xpath("//a[@id='quantity_4']"));
-
 		selectQuantityfive.click();
 
 

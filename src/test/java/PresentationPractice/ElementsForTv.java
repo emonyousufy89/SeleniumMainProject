@@ -1,5 +1,7 @@
 package PresentationPractice;
 
+import static org.testng.Assert.assertEquals;
+
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -8,10 +10,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
 
 
 
 public class ElementsForTv {
+	static double expectedTotalPrice= 1329.98;
 
 	public static void main(String[] args) throws InterruptedException {
 		System.setProperty("webdriver.chrome.driver", "Driver/chromedriver");
@@ -27,7 +31,7 @@ public class ElementsForTv {
 		action.click().build().perform();
 		 
 		JavascriptExecutor js=(JavascriptExecutor) driver;
-		WebElement electronics = driver.findElement(By.xpath("//a[@data-menu-id='12']//div"));
+		WebElement electronics = driver.findElement(By.xpath("//a//div[contains(text(),'Electronics')]"));
 		js.executeScript("arguments[0].scrollIntoView();", electronics);
 		Thread.sleep(2000);
 		electronics.click();
@@ -49,8 +53,10 @@ public class ElementsForTv {
 		Brand.click();
 		Thread.sleep(2000);
 		
-		WebElement IssueYear = driver.findElement(By.partialLinkText("SAMSUNG 65-inch Class QLED Q70T Series - 4K UHD Dual LED Quantum HDR Smart TV"));
-		action.moveToElement(IssueYear);
+		System.out.println("Title :" + driver.getTitle());
+		
+		WebElement ItemTv = driver.findElement(By.partialLinkText("SAMSUNG 65-inch Class QLED Q70T Series - 4K UHD Dual LED Quantum HDR Smart TV"));
+		action.moveToElement(ItemTv);
 		action.click().build().perform();
 		
 		
@@ -58,11 +64,25 @@ public class ElementsForTv {
 		action.moveToElement(AddToCart);
 		action.click().build().perform();
 		
-		
+		System.out.println("Title :" + driver.getTitle());
 		
 		WebElement Warrenty = driver.findElement(By.xpath("//button[@id='siAddCoverage-announce']"));
 		action.moveToElement(Warrenty);
 		action.click().build().perform();
+		
+		WebElement printPrice = driver.findElement(By.xpath("//span[@class='a-color-price hlb-price a-inline-block a-text-bold']"));
+//		String actualvalstr= printPrice.getText(); 
+//		String modstr=actualvalstr.replace("$", "");
+//		double actualdoubleval=Double.parseDouble(modstr);
+//		//Assert.assertEquals(expectedTotalPrice, actualdoubleval);
+//		Assert.assertEquals (actualdoubleval, expectedTotalPrice);
+//		//assert.assertEquals(expectedTotalPrice, actualdoubleval);
+//		//assert.assertEquals(expectedTotalPrice, actualdoubleval);
+//		//assert.assertEquals(printPrice.getText(),+ $ 1329.98);
+//		Assert.
+		Assert.assertEquals(printPrice.getText(), "$1,329.98");
+		driver.quit();
+		
 		/*
 		WebElement color=driver.findElement(By.xpath("//div[@class='result-color-container']//div[@style='background-color:#d10000;']"));
 		action.moveToElement(color);
